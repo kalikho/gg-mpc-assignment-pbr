@@ -1,8 +1,27 @@
-h1 {
-  color: green;
+h3 {
+  color: rgb(72, 185, 161);
 }
 
 body {
   text-align: center;
   margin: auto;
+}
+
+.note {
+  color: gray;
+  margin: 8px 0;
+}
+
+input.active:valid {
+  box-shadow: 0 0 5px 1px green;
+}
+
+input.active:invalid {
+  box-shadow: 0 0 5px 1px red;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
