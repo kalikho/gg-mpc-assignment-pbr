@@ -110,7 +110,7 @@ onClickHandler = () => {
         <div className='col'>
           <div className='row'>
             {<p className='p-5'>Instructions: <br/>
-            1. Generate crypto materials by executing keygen.sh script. <br/>
+            1. Generate crypto materials by executing keygen.sh script on client device. <br/>
             2. Upload server key to the server. <br/>
             3. Upload signed message, signed by client key to the server. <br />
             4. Enter the message in the message box and click on Verify.
