@@ -19,8 +19,7 @@ In the production mode, we will have only 1 server running. All the client side 
 
 ```bash
 # Clone the repository
-git clone https://github.com/crsandeep/simple-react-full-stack
-
+git clone https://github.com/kalikho/gg-mpc-assignment-pbr
 # Go inside the directory
 cd simple-react-full-stack
 
