@@ -14,7 +14,7 @@ This is a  full stack [React](https://reactjs.org/) application with a [Node.js]
 # Clone the repository
 git clone https://github.com/kalikho/gg-mpc-assignment-pbr
 # Go inside the directory
-cd simple-react-full-stack
+cd gg-mpc-assignment-pbr
 
 # Install dependencies
 yarn (or npm install)
