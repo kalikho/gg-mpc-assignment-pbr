@@ -62,20 +62,6 @@ Babel requires plugins to do the transformation. Presets are the set of plugins 
 
 [.eslintrc.json file](<(https://eslint.org/docs/user-guide/configuring)>) (alternatively configurations can we written in Javascript or YAML as well) is used describe the configurations required for ESLint. Below is the .eslintrc.json file which I am using.
 
-```javascript
-{
-  "extends": ["airbnb"],
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "rules": {
-    "no-console": "off",
-    "comma-dangle": "off",
-    "react/jsx-filename-extension": "off"
-  }
-}
-```
 
 
 ### Webpack
@@ -178,18 +164,6 @@ Express is a web application framework for Node.js. It is used to build our back
 
 src/server/index.js is the entry point to the server application. Below is the src/server/index.js file
 
-```javascript
-const express = require("express");
-const os = require("os");
-
-const app = express();
-
-app.use(express.static("dist"));
-app.get("/api/getUsername", (req, res) =>
-  res.send({ username: os.userInfo().username })
-);
-app.listen(8080, () => console.log("Listening on port 8080!"));
-```
 
 This starts a server and listens on port 8080 for connections. The app responds with `{username: <username>}` for requests to the URL (/api/getUsername). It is also configured to serve the static files from **dist** directory.
 
@@ -221,4 +195,4 @@ This starts a server and listens on port 8080 for connections. The app responds 
     "prettier.eslintIntegration": true
     ```
 
-Above, we have modified editor configurations. Alternatively, this can be configured at the project level by following [this article](https://medium.com/@netczuk/your-last-eslint-config-9e35bace2f99).
+
