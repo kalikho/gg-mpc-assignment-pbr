@@ -45,7 +45,7 @@ onClickHandler = () => {
     e.preventDefault();
     const message = this.state.message;
     console.log("Submitted message is: ", message)
-    const uid = 144;
+    const uid = Math.floor(Math.random() * 100);;
     var status = "Processing";
     var interval = setInterval(() => { 
         axios.post("/api/sign",null, { params: {message,uid}}).then(res => { // then print response status
