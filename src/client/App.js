@@ -45,7 +45,7 @@ onClickHandler = () => {
     e.preventDefault();
     const message = this.state.message;
     console.log("Submitted message is: ", message)
-    const uid = Math.floor(Math.random() * 100);;
+    const uid = Math.floor(Math.random() * 10000);;
     var status = "Processing";
     var interval = setInterval(() => { 
         axios.post("/api/sign",null, { params: {message,uid}}).then(res => { // then print response status
@@ -59,13 +59,13 @@ onClickHandler = () => {
           status = "completed";
           clearInterval(interval);
         }else{
-          this.setState({ notbadsign: "False"});
-          console.log("Printing Bad Signature",this);
+          this.setState({ notbadsign: "True"});
+          this.setState({ serverResponse: null })
           status = "completed";
           clearInterval(interval);
         }
       })
-    },500)
+    },99)
   }
 
   handleChange = this.handleChange.bind(this);

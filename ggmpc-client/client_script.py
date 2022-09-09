@@ -13,6 +13,6 @@ def client():
     signed_message = mpc.sign(message, (config_dictionary[0], config_dictionary[1]))
     with open('client-signed-message.json', 'w+') as fp:
         json.dump(jsonpickle.encode(signed_message), fp)
-    with open('client-signed-message_pkl', 'wb') as config_dictionary_file:
+    with open('client-signed-message', 'wb') as config_dictionary_file:
         pickle.dump(signed_message, config_dictionary_file)
 client()
