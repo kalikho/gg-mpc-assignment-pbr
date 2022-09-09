@@ -4,10 +4,7 @@
 
 This is a boilerplate to build a full stack web application using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
 
-- [simple-react-full-stack](#simple-react-full-stack)
-  - [Introduction](#introduction)
-    - [Development mode](#development-mode)
-    - [Production mode](#production-mode)
+- [gg-mpc-assignment-pbr](#gg-mpc-assignment-pbr)
   - [Quick Start](#quick-start)
   - [Documentation](#documentation)
     - [Folder Structure](#folder-structure)
@@ -23,9 +20,9 @@ This is a boilerplate to build a full stack web application using React, Node.js
 
 ## Introduction
 
-[Create React App](https://github.com/facebook/create-react-app) is a quick way to get started with React development and it requires no build configuration. But it completely hides the build config which makes it difficult to extend. It also requires some additional work to integrate it with an existing Node.js/Express backend application.
+[gg-mpc-assignment-pbr]is an implementation of 2 Party threshold ECDSA signature scheme. The master key is divided into two parts i) A client part and ii) A server part. The client signs the message with the client key and sends the signed message alongwith the server key to the server. The server signs the received message with the provided server key. Then the server combines client signature with the server signature and verifies the signature. If both the signatures are valid the verification returns a True else fails.
 
-This is a simple full stack [React](https://reactjs.org/) application with a [Node.js](https://nodejs.org/en/) and [Express](https://expressjs.com/) backend. Client side code is written in React and the backend API is written using Express. This application is configured with [Airbnb's ESLint rules](https://github.com/airbnb/javascript) and formatted through [prettier](https://prettier.io/).
+This is a  full stack [React](https://reactjs.org/) application with a [Node.js](https://nodejs.org/en/) and [Express](https://expressjs.com/) and [Python3 and Shell Script] backend. Client side code is written in React and the backend API is written using Express. This application is configured with [Airbnb's ESLint rules](https://github.com/airbnb/javascript) and formatted through [prettier](https://prettier.io/).
 
 ### Development mode
 
@@ -98,7 +95,6 @@ Babel requires plugins to do the transformation. Presets are the set of plugins 
 }
 ```
 
-[I am using Airbnb's Javascript Style Guide](https://github.com/airbnb/javascript) which is used by many JavaScript developers worldwide. Since we are going to write both client (browser) and server side (Node.js) code, I am setting the **env** to browser and node. Optionally, we can override the Airbnb's configurations to suit our needs. I have turned off [**no-console**](https://eslint.org/docs/rules/no-console), [**comma-dangle**](https://eslint.org/docs/rules/comma-dangle) and [**react/jsx-filename-extension**](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md) rules.
 
 ### Webpack
 
