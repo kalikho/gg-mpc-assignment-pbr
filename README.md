@@ -19,6 +19,7 @@ This is a boilerplate to build a full stack web application using React, Node.js
       - [Installation guide](#installation-guide)
 
 ## Introduction
+![gg-mpc-ecdsa](https://user-images.githubusercontent.com/42250206/189272748-a08fb06e-b4cb-4aa6-a365-8fd91d64c52d.png)
 
 [gg-mpc-assignment-pbr]is an implementation of 2 Party threshold ECDSA signature scheme. The master key is divided into two parts i) A client part and ii) A server part. The client signs the message with the client key and sends the signed message alongwith the server key to the server. The server signs the received message with the provided server key. Then the server combines client signature with the server signature and verifies the signature. If both the signatures are valid the verification returns a True else fails.
 
