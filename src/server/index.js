@@ -25,15 +25,15 @@ app.post('/api/sign',function(req,res){
   var path = '/home/samurai/gg-mpc-assignment-pbr/application/src/server/outputs/success'
   console.log(req.query.message);
   const { exec } = require("child_process");
-  const command = "bash /home/samurai/gg-mpc-assignment-pbr/application/src/server/server-script.sh"+" "+req.query.message+" "+req.query.uid
+  const command = "bash "+__dirname+"/server-script.sh"+" "+req.query.message+" "+req.query.uid
   console.log(command)
-  if(!fs.existsSync("/home/samurai/gg-mpc-assignment-pbr/application/src/server/outputs/"+req.query.uid)){
+  if(!fs.existsSync(__dirname+"/outputs/"+req.query.uid)){
     exec(command)
   }
-  path = '/home/samurai/gg-mpc-assignment-pbr/application/src/server/outputs/success'
-  if(fs.existsSync("/home/samurai/gg-mpc-assignment-pbr/application/src/server/outputs/"+req.query.uid)){
+  path = __dirname+'/outputs/success'
+  if(fs.existsSync(__dirname+"/outputs/"+req.query.uid)){
     if (fs.existsSync(path)) {
-      fs.readFile("/home/samurai/gg-mpc-assignment-pbr/application/src/server/outputs/signatures.json", "utf8", (err, jsonString) => {
+      fs.readFile(__dirname+"/outputs/signatures.json", "utf8", (err, jsonString) => {
         if (err) {
           console.log("File read failed:", err);
           return;
