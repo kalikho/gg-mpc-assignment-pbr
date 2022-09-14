@@ -23,9 +23,8 @@ var upload = multer({ storage: storage }).single('file')
 app.post('/api/sign',function(req,res){
   const fs = require('fs')
   var path = '/home/samurai/gg-mpc-assignment-pbr/application/src/server/outputs/success'
-  console.log(req.query.message);
   const { exec } = require("child_process");
-  const command = "bash "+__dirname+"/server-script.sh"+" "+req.query.message+" "+req.query.uid
+  const command = "bash "+__dirname+"/server-script.sh"+" "+req.query.message+" "+req.query.uid+" "+req.query.client_r+" "+req.query.client_s
   console.log(command)
   if(!fs.existsSync(__dirname+"/outputs/"+req.query.uid)){
     exec(command)

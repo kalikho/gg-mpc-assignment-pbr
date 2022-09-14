@@ -2,27 +2,34 @@
 import pickle
 import pickle,sys,json
 import ecdsa, unittest
-import ggmpc,pickle
-import ggmpc.curves as curves
+import thresecdsa,pickle
+import thresecdsa.curves as curves
 import jsonpickle,os
 from os.path import exists
-
+import copy
 from dotenv import load_dotenv
+
 load_dotenv()
 PATH = os.getenv('DIRPATH')
 #Load serverKey generated at the client's end
-serverKey = pickle.load(open(PATH+"/"+"uploads/keygen-server","rb"))
-#Load signature of message signed by the client
-clientSignature = pickle.load(open(PATH+"/"+"uploads/client-signed-message","rb"))
+serverKey = pickle.load(open(PATH+"uploads/keygen-server","rb"))
 #Initiate EC
-mpc = ggmpc.Ecdsa(curves.secp256k1)
+mpc = thresecdsa.Ecdsa(curves.secp256k1)
 #Receive message to sign
 message = str.encode(sys.argv[1])
 query = str(sys.argv[2])
+client_signature_r = int(sys.argv[3])
+client_signature_s = int(sys.argv[4])
+
 #Server signs the message
 serverSignature = mpc.sign(message, (serverKey[0], serverKey[1]))
+clientSignature = copy.deepcopy(serverSignature)
+clientSignature['r'] = client_signature_r
+clientSignature['s'] = client_signature_s
+print("Client Signature",clientSignature)
+print("Server Signature",serverSignature)
 #Combine client and server signature
-sig = mpc.sign_combine((clientSignature, serverSignature))
+sig = mpc.sign_combine((clientSignature,serverSignature))
 #verify signature
 try:
     output = mpc.verify(message, sig)

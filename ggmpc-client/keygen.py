@@ -1,10 +1,10 @@
 import ecdsa, unittest
-import ggmpc,pickle
-import ggmpc.curves as curves
+import thresecdsa,pickle,json,jsonpickle
+import thresecdsa.curves as curves
 
 def test_2_in_2_of_3():
 	print("== Generating Client and Server Keys ==")
-	mpc = ggmpc.Ecdsa(curves.secp256k1)
+	mpc = thresecdsa.Ecdsa(curves.secp256k1)
 	A = mpc.key_share(1,2,2)
 	B = mpc.key_share(2,2,2)
 	A, B =\
@@ -26,6 +26,8 @@ def test_2_in_2_of_3():
 		pickle.dump(server_secret, config_dictionary_file)
 	with open('keygen-client', 'wb') as config_dictionary_file:
 		pickle.dump(client_secret, config_dictionary_file)
+	with open('keygen-client.json', 'w+') as fp:
+		json.dump(jsonpickle.encode(client_secret), fp)
 
 if __name__ == '__main__':
 	test_2_in_2_of_3()
