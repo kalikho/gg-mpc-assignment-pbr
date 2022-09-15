@@ -39,7 +39,7 @@ except:
 file_exists = exists(PATH+"/"+"outputs/"+user+"/"+"success")
 if(file_exists):
     os.remove(PATH+"/"+"outputs/"+user+"/"+"success")
-file_exists = exists(PATH+"/"+"outputs"+user+"/"+"error")
+file_exists = exists(PATH+"/"+"outputs/"+user+"/"+"error")
 if(file_exists):
     os.remove(PATH+"/"+"outputs/"+user+"/"+"error") 
 
