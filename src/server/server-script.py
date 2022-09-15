@@ -11,8 +11,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 PATH = os.getenv('DIRPATH')
+user = str(sys.argv[5])
 #Load serverKey generated at the client's end
-serverKey = pickle.load(open(PATH+"uploads/keygen-server","rb"))
+serverKey = pickle.load(open(PATH+"uploads/"+user+"/"+"keygen-server","rb"))
 #Initiate EC
 mpc = thresecdsa.Ecdsa(curves.secp256k1)
 #Receive message to sign
@@ -35,18 +36,18 @@ try:
     output = mpc.verify(message, sig)
 except:
     output = False
-file_exists = exists(PATH+"/"+"outputs/success")
+file_exists = exists(PATH+"/"+"outputs/"+user+"/"+"success")
 if(file_exists):
-    os.remove(PATH+"/"+"outputs/success")
-file_exists = exists(PATH+"/"+"outputs/error")
+    os.remove(PATH+"/"+"outputs/"+user+"/"+"success")
+file_exists = exists(PATH+"/"+"outputs"+user+"/"+"error")
 if(file_exists):
-    os.remove(PATH+"/"+"outputs/error") 
+    os.remove(PATH+"/"+"outputs/"+user+"/"+"error") 
 
 if(output):
-    with open(PATH+"/"+"outputs/success", 'w') as fp:
+    with open(PATH+"/"+"outputs/"+user+"/"+"success", 'w') as fp:
         pass
 else:
-    with open(PATH+"/"+"outputs/error", 'w') as fp:
+    with open(PATH+"/"+"outputs/"+user+"/"+"error", 'w') as fp:
         pass
 
 #Write to json file
@@ -54,7 +55,7 @@ dictionary = [{"r":sig["r"], "s":sig["s"]},{"r":serverSignature["r"],"s":serverS
 json_object = json.dumps(dictionary, indent=4)
  
 # Writing to sample.json
-with open(PATH+"/"+"outputs/signatures.json", "w+") as outfile:
+with open(PATH+"/"+"outputs/"+user+"/"+"signatures.json", "w+") as outfile:
     outfile.write(json_object)
-with open(PATH+"/"+"outputs/"+str(query), "w+") as outfile:
+with open(PATH+"/"+"outputs/"+user+"/"+str(query), "w+") as outfile:
     pass

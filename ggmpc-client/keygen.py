@@ -2,7 +2,7 @@ import ecdsa, unittest
 import thresecdsa,pickle,json,jsonpickle
 import thresecdsa.curves as curves
 
-def test_2_in_2_of_3():
+def gg2pecdsa():
 	print("== Generating Client and Server Keys ==")
 	mpc = thresecdsa.Ecdsa(curves.secp256k1)
 	A = mpc.key_share(1,2,2)
@@ -30,4 +30,4 @@ def test_2_in_2_of_3():
 		json.dump(jsonpickle.encode(client_secret), fp)
 
 if __name__ == '__main__':
-	test_2_in_2_of_3()
+	gg2pecdsa()

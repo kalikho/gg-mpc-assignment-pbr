@@ -3,8 +3,7 @@ import './app.css';
 import axios from 'axios';
 
 export default class App extends Component {
-  state = {information_message:"Setting Up", client_encoded_sign:null,client_r:null, client_s:null, version: null, pyodide: null, mpc:null, selectedFile: null,uid:"", message: "",clientKey:"",serverResponse : null, notbadsign : null };
-
+state = {information_message:"Setting Up", client_encoded_sign:null,client_r:null, client_s:null, version: null, pyodide: null, mpc:null, selectedFile: null,uid:"", message: "",clientKey:"",serverResponse : null, notbadsign : null };
 onChangeHandler=event=>{
     this.setState({
       selectedFile: event.target.files[0],
@@ -12,9 +11,11 @@ onChangeHandler=event=>{
     })
 }
 //API for uploading crypto-materials
+//The Signature api (/api/sign)
 onClickHandler = () => {
   const data = new FormData() 
   data.append('file', this.state.selectedFile)
+  const user = localStorage.getItem('user');
   axios.post("/api/upload", data).then(res => {
   console.log(res)}).catch(err => {
     // Handle error
@@ -25,7 +26,14 @@ onClickHandler = () => {
         method: 'post',
         url: '/api/upload',
         data: data
-      });
+      }).then(function(req,res){
+        axios({
+          method:'post',
+          url: '/api/movefile',
+          params:user
+         }) 
+      }
+      )
       let data = res.data;
       this.setState({information_message:"File Uploaded Successfully!"});
       return data;
@@ -41,7 +49,8 @@ onClickHandler = () => {
       [e.target.name]: e.target.value
     });
   }
-  
+  //Message Signature Verification at Server End
+  //The Signature api (/api/sign)
   handleSubmit(e) {    
     e.preventDefault();
     // Receive the message to be signed
@@ -49,11 +58,12 @@ onClickHandler = () => {
     const client_r = this.state.client_r;
     const client_s = this.state.client_s;
     const client_encoded_sign = this.state.client_encoded_sign;
+    const user = localStorage.getItem('user');
     console.log("Submitted message is: ", message)
     const uid = Math.floor(Math.random() * 10000);;
     var status = "Processing";
     var interval = setInterval(() => { 
-        axios.post("/api/sign",null, { params: {message,uid,client_r,client_s}}).then(res => { // then print response status
+        axios.post("/api/sign",null, { params: {message,uid,client_r,client_s,user}}).then(res => { // then print response status
         console.log(res)
         if(res.data == "processing"){
           status = "Processing";
@@ -70,11 +80,10 @@ onClickHandler = () => {
           clearInterval(interval);
         }
       })
-    },1200)
+    },90)
   }
-
+// Store client key on local browser
 handleClientKey(e){
-    alert();
     e.preventDefault();
     const clientKey = this.state.clientKey;
     this.setState({ [clientKey]: clientKey });
@@ -82,12 +91,11 @@ handleClientKey(e){
     this.setState({information_message:"Client Key Stored in Browse"});
   }
 
+  // Perform client signature
   async handleClientSign(e){
-    alert();
     e.preventDefault();
     this.state.pyodide.globals.set("clientSignEnc", localStorage.getItem('clientKey'));
     console.log("Logging from console",localStorage.getItem('clientKey'));
-    // await this.state.pyodide.runPython(`clientSignEnc='[{\"i\": 2, \"j\": 1, \"delta\": 5851199919497531865722081285772603159595799562060555981612787514818410175557, \"Gamma\": {\"py/object\": \"ecdsa.ellipticcurve.PointJacobi\", \"py/state\": {\"_PointJacobi__curve\": {\"py/object\": \"ecdsa.ellipticcurve.CurveFp\", \"_CurveFp__p\": 115792089237316195423570985008687907853269984665640564039457584007908834671663, \"_CurveFp__a\": 0, \"_CurveFp__b\": 7, \"_CurveFp__h\": 1}, \"_PointJacobi__coords\": {\"py/tuple\": [42061361645182813955799615315130963975667366357700088616633372691937997783462, 77656889160623663461781217427226716410803694150479211056282582982285491383137, 76616234397378071434636154705270601209857693477607324750336850829315708428643]}, \"_PointJacobi__order\": 115792089237316195423570985008687907852837564279074904382605163141518161494337, \"_PointJacobi__generator\": false, \"_PointJacobi__precompute\": []}}}, {\"i\": 2, \"y\": {\"py/object\": \"ecdsa.ellipticcurve.PointJacobi\", \"py/state\": {\"_PointJacobi__curve\": {\"py/id\": 4}, \"_PointJacobi__coords\": {\"py/tuple\": [17120710671276199878422889236614952544283326916660599726604734655286829078059, 21186249964550619748981586266946977534151979662224229171013056207128672600936, 14100037835227771642537660589493187200263487294412047082758909435425497307677]}, \"_PointJacobi__order\": 115792089237316195423570985008687907852837564279074904382605163141518161494337, \"_PointJacobi__generator\": false, \"_PointJacobi__precompute\": []}}, \"k\": 28024028624095205808553994029601645953035848979501076956365458804256219618285, \"omicron\": 63547762709203214319639200477553567330752797835978657689798396305203572303205, \"delta\": 68978876483484579872765321065766861043037845981880617542895128596925837694312, \"Gamma\": {\"py/object\": \"ecdsa.ellipticcurve.PointJacobi\", \"py/state\": {\"_PointJacobi__curve\": {\"py/id\": 4}, \"_PointJacobi__coords\": {\"py/tuple\": [8723058398749528435746005285336500880570031919238885355608550905412370036018, 37734053426008908891119765268831843242842920183513258366003955245333737431, 57410576939431289340852165919661872681227389866344116686213832616745562923874]}, \"_PointJacobi__order\": 115792089237316195423570985008687907852837564279074904382605163141518161494337, \"_PointJacobi__generator\": false, \"_PointJacobi__precompute\": []}}}]'`)
     await this.state.pyodide.runPython(`mpc = thresecdsa.Ecdsa(curves.secp256k1)`)
     await this.state.pyodide.runPython(`clientSignDec = jsonpickle.decode(clientSignEnc)`)
     await this.state.pyodide.runPython(`msg = str.encode('passbird')`)
@@ -107,6 +115,7 @@ handleClientKey(e){
   handleClientKey = this.handleClientKey.bind(this);
   handleClientSign = this.handleClientSign.bind(this);
 
+  //Load relevant packages for Pyodide
   componentDidMount() {
     window
       .loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.20.0/full/' })
@@ -207,8 +216,8 @@ handleClientKey(e){
             <br/>
             <br />
             <div className='row text-center'>
-                  {notbadsign == "True" ? serverResponse ? <p><div className="alert alert-success m-2"> <strong>{`Server Signature : r :${serverResponse.data[0]["r"]}, s:${serverResponse.data[0]["s"]}`}</strong> </div></p> : <p><div className="alert alert-danger m-2"> <strong>Bad Signature</strong> </div></p> : <p> Signature Not Verified</p>} <br />
-                  {notbadsign == "True" ? serverResponse ? <p><div className="alert alert-success m-2"> <strong>{`Merged Signature : r :${serverResponse.data[1]["r"]}, s:${serverResponse.data[1]["s"]}`}</strong> </div></p> : <p></p> : <p></p>} <br />
+                  {notbadsign == "True" ? serverResponse ? <div className="alert alert-success m-2"> <strong>{`Server Signature : r :${serverResponse.data[0]["r"]}, s:${serverResponse.data[0]["s"]}`}</strong> </div>: <div className="alert alert-danger m-2"> <strong>Bad Signature</strong> </div> : <p> Signature Not Verified</p>} <br />
+                  {notbadsign == "True" ? serverResponse ? <div className="alert alert-success m-2"> <strong>{`Merged Signature : r :${serverResponse.data[1]["r"]}, s:${serverResponse.data[1]["s"]}`}</strong> </div>: <p></p> : <p></p>} <br />
             </div>
             <br/>
             <br/>
@@ -218,7 +227,7 @@ handleClientKey(e){
             {<p className='p-5'>Instructions: <br/>
             1. Generate crypto materials by executing keygen.sh script on client device. <br/>
             2. Upload server key to the server. <br/>
-            3. Upload signed message, signed by client key to the server. <br />
+            3. Sign the message on the client end. <br />
             4. Enter the message in the message box and click on Verify.
             </p>}
           </div>
